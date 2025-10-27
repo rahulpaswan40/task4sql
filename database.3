@@ -1,0 +1,48 @@
+CREATE TABLE authors (
+    author_id INT PRIMARY KEY,
+    author_name VARCHAR(100) NOT NULL,
+    country VARCHAR(50)
+);
+
+INSERT INTO authors (author_id, author_name, country)
+VALUES
+(101, 'J. K. Rowling', 'UK'),
+(102, 'George R.R. Martin', 'USA'),
+(103, 'Agatha Christie', 'UK');
+
+SELECT * FROM authors;
+
+
+CREATE TABLE books (
+    book_id SERIAL PRIMARY KEY,
+    title VARCHAR(150) NOT NULL,
+    publication_year INT,
+    author_id INT REFERENCES authors(author_id)
+);
+
+INSERT INTO books (title, publication_year, author_id)
+VALUES
+('A Game of Thrones', 1996, 102),
+('Harry Potter and the Sorcerer''s Stone', 1997, 101),
+('Murder on the Orient Express', 1934, 103),
+('A Clash of Kings', 1998, 102),
+('Harry Potter and the Chamber of Secrets', 1998, 101);
+
+SELECT * FROM books;
+
+SELECT
+    b.title,
+    b.publication_year,
+    a.author_name,
+    a.country
+FROM
+    books b
+JOIN
+    authors a ON b.author_id = a.author_id
+ORDER BY
+    a.author_name, b.publication_year;
+
+
+DROP TABLE books;
+DROP TABLE authors;
+
