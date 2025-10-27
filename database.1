@@ -1,0 +1,45 @@
+CREATE TABLE categories (
+    category_id VARCHAR(5) PRIMARY KEY,
+    category_name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO categories (category_id, category_name)
+VALUES
+('ELEC', 'Electronics'),
+('CLTH', 'Clothing'),
+('BOOK', 'Books');
+
+SELECT * FROM categories;
+
+
+CREATE TABLE products (
+    product_id SERIAL PRIMARY KEY,
+    product_name VARCHAR(100) NOT NULL,
+    price NUMERIC(10, 2),
+    category_id VARCHAR(5) REFERENCES categories(category_id)
+);
+
+INSERT INTO products (product_name, price, category_id)
+VALUES
+('Laptop Pro X', 1200.00, 'ELEC'),
+('Denim Jacket', 75.50, 'CLTH'),
+('Sci-Fi Thriller', 15.99, 'BOOK'),
+('Smartwatch Z', 299.99, 'ELEC'),
+('Cotton T-Shirt', 25.00, 'CLTH');
+
+SELECT * FROM products;
+
+
+SELECT
+    p.product_name,
+    p.price,
+    c.category_name
+FROM
+    products p
+JOIN
+    categories c ON p.category_id = c.category_id;
+
+
+
+DROP TABLE products;
+DROP TABLE categories;
