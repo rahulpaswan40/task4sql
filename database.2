@@ -1,0 +1,60 @@
+-- 1. Create the 'departments' table (Parent Table)
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL
+);
+
+-- 2. Insert data into 'departments'
+INSERT INTO departments (dept_id, dept_name)
+VALUES
+(10, 'Sales'),
+(20, 'Marketing'),
+(30, 'IT'),
+(40, 'HR');
+
+-- 3. View 'departments' data
+SELECT * FROM departments;
+
+-----------------------------------------------------------
+
+-- 4. Create the 'employees' table (Child Table with Foreign Key)
+CREATE TABLE employees (
+    employee_id SERIAL PRIMARY KEY,
+    employee_name VARCHAR(100) NOT NULL,
+    salary NUMERIC(10, 2),
+    dept_id INT REFERENCES departments(dept_id)
+);
+
+-- 5. Insert data into 'employees'
+INSERT INTO employees (employee_name, salary, dept_id)
+VALUES
+('Alice Johnson', 65000.00, 10),
+('Ben Carter', 72000.00, 30),
+('Cathy Lee', 55000.00, 20),
+('David Singh', 90000.00, 30),
+('Eve Rodriguez', 60000.00, 40);
+
+-- 6. View 'employees' data
+SELECT * FROM employees;
+
+-----------------------------------------------------------
+
+-- 7. Perform the JOIN operation
+-- This INNER JOIN combines employee details with their corresponding department name
+SELECT
+    e.employee_name,
+    e.salary,
+    d.dept_name
+FROM
+    employees e
+JOIN
+    departments d ON e.dept_id = d.dept_id
+ORDER BY
+    d.dept_name, e.employee_name;
+
+-----------------------------------------------------------
+
+-- 8. Clean Up (Drop the tables)
+-- The child table ('employees') must be dropped before the parent table ('departments')
+DROP TABLE employees;
+DROP TABLE departments;
